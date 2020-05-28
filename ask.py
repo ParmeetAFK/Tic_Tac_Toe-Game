@@ -1,5 +1,7 @@
 import pygame
 import random
+from tkinter import *
+from tkinter import messagebox
 
 #TASKS
 #Winning
@@ -131,7 +133,7 @@ def winner(board,player):
 			[board[3],board[5],board[7]]]
 
 	if [player, player, player] in win_list:
-		print(player+" Player Wins the Game")
+		msg(player)
 		gameover(board)
 
 	else:
@@ -184,6 +186,9 @@ def but_wh(position):
 	elif ninth.collidepoint(pos):
 		uplay(board,9)
 		dX(400,370)
+
+def msg(player):
+	messagebox.showinfo( "Winner",player + 'Has won the game')
 				
 
 
@@ -211,12 +216,14 @@ while gate:
 		emptypos(board)
 		turn(board)
 		if event.type == pygame.QUIT:
-			gate = False
+			pygame.quit()
 
 		if event.type == pygame.MOUSEBUTTONUP:
 			pos = pygame.mouse.get_pos()
 			but_wh(pos)
+			pygame.display.update()
 			winner(board,player)
+
 			if gate == False:
 				pass
 
@@ -224,7 +231,6 @@ while gate:
 				emptypos(board)
 				turn(board)
 				winner(board,player)
-				print(player)
 
-
+pygame.time.delay(1000)
 pygame.quit()
