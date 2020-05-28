@@ -188,7 +188,7 @@ def but_wh(position):
 		dX(400,370)
 
 def msg(player):
-	messagebox.showinfo( "Winner",player + 'Has won the game')
+	messagebox.showinfo( "Winner",player + ' Has won the game')
 				
 
 
