@@ -2,7 +2,7 @@ import pygame
 import random
 
 #TASKS
-#dO() values for XY
+#Winning
 
 board = [' ','_','_','_',
 		'_','_','_',
@@ -216,8 +216,15 @@ while gate:
 		if event.type == pygame.MOUSEBUTTONUP:
 			pos = pygame.mouse.get_pos()
 			but_wh(pos)
-			emptypos(board)
-			AImove(board)
+			winner(board,player)
+			if gate == False:
+				pass
+
+			else:
+				emptypos(board)
+				turn(board)
+				winner(board,player)
+				print(player)
 
 
 pygame.quit()
