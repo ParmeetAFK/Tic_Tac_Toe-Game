@@ -14,7 +14,7 @@ gate = True
 
 pygame.init()
 pygame.font.init()
-font = pygame.font.SysFont('Comic Sans MS', 120)
+font = pygame.font.SysFont('Fugaz One', 120)
 
 win = pygame.display.set_mode((550,550))
 pygame.display.set_caption("TIC-TAC-TOE")
@@ -46,7 +46,7 @@ def turn(board):
 	
 	if len(valid_pos) == 0:
 		gameover(board)
-		print("Draw")
+		messagebox.showinfo("ITS A DRAW")
 
 	elif len(valid_pos) == 9:
 		player = 'X'
@@ -84,7 +84,7 @@ def dO(x,y):
 def AImove(board):
 
 	if len(valid_pos) == 0:
-		print("Draw")
+		messagebox.showinfo("ITS A DRAW")
 		gate = False
 
 	else:
@@ -188,7 +188,7 @@ def but_wh(position):
 		dX(400,370)
 
 def msg(player):
-	messagebox.showinfo( "Winner",player + ' Has won the game')
+	messagebox.showinfo( "Winner",player + ' has won the game')
 				
 
 
