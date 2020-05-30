@@ -104,43 +104,38 @@ def dO(x,y):
 	win.blit(O,(x,y))
 
 		#Computer's turn who alwayss plays as O
-def AImove(board):
+def AImove(board,b):
 
 	if len(valid_pos) == 0:
 		messagebox.showinfo("ITS A DRAW")
 		gate = False
 
-	else:
+	if b == 1:
+		dO(50,15)
 
-		b = random.choice(valid_pos)
-		board[b] = 'O'
+	elif b == 2:
+		dO(230,15)
 
-		if b == 1:
-			dO(50,15)
+	elif b == 3:
+		dO(400,15)
 
-		elif b == 2:
-			dO(230,15)
+	elif b == 4:
+		dO(50,190)
 
-		elif b == 3:
-			dO(400,15)
+	elif b == 5:
+		dO(230,190)
 
-		elif b == 4:
-			dO(50,190)
+	elif b == 6:
+		dO(400,190)
 
-		elif b == 5:
-			dO(230,190)
+	elif b == 7:
+		dO(50,370)
 
-		elif b == 6:
-			dO(400,190)
+	elif b == 8:
+		dO(230,370)
 
-		elif b == 7:
-			dO(50,370)
-
-		elif b == 8:
-			dO(230,370)
-
-		elif b == 9:
-			dO(400,370)
+	elif b == 9:
+		dO(400,370)
 
 
 def winner(board,player):
@@ -233,9 +228,16 @@ def pyboard():
 def minimax(board):
 
 	if len(valid_pos) == 8:
-		
+		b = random.choice(valid_pos)
+		board[b] = 'O'
+		AImove(board,b)
 
-
+	else:
+		obj = TreeNode(board)
+		oblis.append(obj)
+		for i in range(valid_pos+1):
+			child = TreeNode()
+			obj.add_child()
 
 
 pyboard()
