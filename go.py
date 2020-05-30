@@ -31,8 +31,6 @@ class TreeNode:
 		self.data = data
 		self.childern = []
 		self.parent = None
-		oblis.append(self)
-
 
 	def add_child(self,child):
 
@@ -231,6 +229,14 @@ def pyboard():
 	seventh = pygame.draw.rect(win , (255,255,255), (25,375,150,150))
 	eight = pygame.draw.rect(win , (255,255,255), (200,375,150,150))
 	ninth = pygame.draw.rect(win , (255,255,255), (375,375,150,150))
+
+def minimax(board):
+
+	if len(valid_pos) == 8:
+		
+
+
+
 
 pyboard()
 while gate:
