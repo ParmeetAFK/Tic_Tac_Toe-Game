@@ -5,15 +5,16 @@ from tkinter import messagebox
 import sys
 
 sys.setrecursionlimit(1500)
-#TASKS
-#Winning
 
+
+# ---------------------------------------- BOARD AS 1x9 List -----------------------------------------------
 board = [' ','_','_','_',
 		'_','_','_',
 		'_','_','_']
 
 gate = True
 
+# --------------------------------------- PYGAME INIT() ----------------------------------------------------
 pygame.init()
 pygame.font.init()
 font = pygame.font.SysFont('Fugaz One', 120)
@@ -22,8 +23,8 @@ win = pygame.display.set_mode((550,550))
 pygame.display.set_caption("TIC-TAC-TOE")
 
 
-		# All available empty positions
 
+# --------------------------------------- Returns Best Move based on Score --------------------------------
 def Evaluation(board):
 	bestScore = -10
 	bestMove = None
@@ -37,6 +38,7 @@ def Evaluation(board):
 
 	return move
 
+# -------------------------------------- MINIMAX ALGO FOR GETTING SCORE ------------------------------------
 def minimax(board,depth,isMax):
 	bestScore = -10
 	result = winner(board,player)
@@ -61,7 +63,7 @@ def minimax(board,depth,isMax):
 
 		return bestScore
  
-
+#------------------------------------------- EMPTY POSITION IN BOARD -------------------------------------
 def emptypos(board):
 
 	global valid_pos
@@ -70,6 +72,7 @@ def emptypos(board):
 		if board[pos] == '_':
 			valid_pos.append(pos)
 
+#------------------------------------- Returns Whose Trun X/O -----------------------------------
 def turn(board):
 	global player
 	nX = 0
@@ -101,12 +104,13 @@ def turn(board):
 
 	return player
 
+# -------------------------------------- Draws X on Board in Pygame ------------------------------------
 def dX(x,y):
 
 	X = font.render('X', True, (255,0, 0))
 	win.blit(X,(x,y))
 
-
+# ------------------------------------- Updates Board List for X move ---------------------------------
 def uplay(board,a):
 
 	if a in valid_pos:
@@ -115,13 +119,13 @@ def uplay(board,a):
 	else:
 		print("Wronng")
 			
-
+# ------------------------------------- Draws O on Board in Pygame -----------------------------------
 def dO(x,y):
 
 	O = font.render('O', True, (0,255, 0))
 	win.blit(O,(x,y))
 
-		#Computer's turn who alwayss plays as O
+# --------------------------------- Updates Board List for O Move ---------------------------------
 def AImove(board):
 
 	if len(valid_pos) == 0:
@@ -130,7 +134,7 @@ def AImove(board):
 
 	else:
 
-		b = Evaluation(board)
+		b = Evaluation(board) #b holds best move for AI Player
 		board[b] = 'O'
 		player = 'O'
 		winner(board,player)
@@ -162,7 +166,7 @@ def AImove(board):
 		elif b == 9:
 			dO(400,370)
 
-
+# ------------------------------------ Checks FOR WINNER & RETURNS SCORE ------------------------------------
 def winner(board,player):
 	score = None
 
@@ -186,10 +190,11 @@ def winner(board,player):
 
 	return score
 
-
+#------------------------------------ QUITS THE GAME & PYGAME ------------------------------------------
 def gameover(board):
 	globals()['gate'] = False
 
+#------------------------------- Draws according to MOUSEINPUT FOR X PLAYER ----------------------------------------0-
 def but_wh(position):
 
 	if first.collidepoint(pos):
@@ -238,11 +243,12 @@ def but_wh(position):
 	player = 'X'
 	winner(board,player)
 
+#-------------------------------- TKINTER POP-UP MSG ---------------------------------------------------
 def msg(player):
 	messagebox.showinfo( "Winner",player + ' has won the game')
 				
 
-
+# --------------------------------- DRAW BOARD ON PYGAME ---------------------------------------------
 def pyboard():
 
 	global first,second,third,fourth,fifth,sixth,seventh,eight,ninth
@@ -258,6 +264,8 @@ def pyboard():
 	eight = pygame.draw.rect(win , (255,255,255), (200,375,150,150))
 	ninth = pygame.draw.rect(win , (255,255,255), (375,375,150,150))
 
+
+# -------------------------------------- MAIN ----------------------------------------------
 pyboard()
 while gate:
 	pygame.display.update()
@@ -274,7 +282,7 @@ while gate:
 			pos = pygame.mouse.get_pos()
 			but_wh(pos)
 			pygame.display.update()
-			#winner(board,player)
+			winner(board,player)
 
 			if gate == False:
 				pass
@@ -282,7 +290,7 @@ while gate:
 			else:
 				emptypos(board)
 				turn(board)
-				#winner(board,player)
+				winner(board,player)
 
 pygame.time.delay(1000)
 pygame.quit()
