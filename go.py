@@ -1,9 +1,10 @@
-
 import pygame
 import random
 from tkinter import *
 from tkinter import messagebox
+import sys
 
+sys.setrecursionlimit(1500)
 #TASKS
 #Winning
 
@@ -20,30 +21,47 @@ font = pygame.font.SysFont('Fugaz One', 120)
 win = pygame.display.set_mode((550,550))
 pygame.display.set_caption("TIC-TAC-TOE")
 
-#------------NODECODE
-
-oblis = []
-
-class TreeNode:
-
-	def __init__(self,data):
-
-		self.data = data
-		self.childern = []
-		self.parent = None
-
-	def add_child(self,child):
-
-		child.parent = self
-		self.childern.append(child)
-
-
-	def print_tree(self):
-		for i in range(len(oblis)):
-			print(type(oblis[i]))
-
 
 		# All available empty positions
+
+def Evaluation(board):
+	bestScore = -10
+	bestMove = None
+	for move in valid_pos:
+		board[move] = 'O'
+		score = minimax(board,0,True)
+		board[move] = '_'
+		if score > bestScore:
+			bestScore = score
+			bestMove = move
+
+	return move
+
+def minimax(board,depth,isMax):
+	bestScore = -10
+	result = winner(board,player)
+	if result != None:
+		return result
+
+	if isMax:
+		for move in valid_pos:
+			board[move] = 'O'
+			score = minimax(board,depth+1,False)
+			board[move] = '_'
+			bestScore = max(score,bestScore)
+
+		return bestScore
+
+	else:
+		for move in valid_pos:
+			board[move] = 'X'
+			score = minimax(board,depth+1,True)
+			board[move] = '_'
+			bestScore = max(score,bestScore)
+
+		return bestScore
+ 
+
 def emptypos(board):
 
 	global valid_pos
@@ -95,7 +113,7 @@ def uplay(board,a):
 		board[a] = 'X'
 
 	else:
-		print("BITCH")
+		print("Wronng")
 			
 
 def dO(x,y):
@@ -104,41 +122,49 @@ def dO(x,y):
 	win.blit(O,(x,y))
 
 		#Computer's turn who alwayss plays as O
-def AImove(board,b):
+def AImove(board):
 
 	if len(valid_pos) == 0:
 		messagebox.showinfo("ITS A DRAW")
 		gate = False
 
-	if b == 1:
-		dO(50,15)
+	else:
 
-	elif b == 2:
-		dO(230,15)
+		b = Evaluation(board)
+		board[b] = 'O'
+		player = 'O'
+		winner(board,player)
 
-	elif b == 3:
-		dO(400,15)
+		if b == 1:
+			dO(50,15)
 
-	elif b == 4:
-		dO(50,190)
+		elif b == 2:
+			dO(230,15)
 
-	elif b == 5:
-		dO(230,190)
+		elif b == 3:
+			dO(400,15)
 
-	elif b == 6:
-		dO(400,190)
+		elif b == 4:
+			dO(50,190)
 
-	elif b == 7:
-		dO(50,370)
+		elif b == 5:
+			dO(230,190)
 
-	elif b == 8:
-		dO(230,370)
+		elif b == 6:
+			dO(400,190)
 
-	elif b == 9:
-		dO(400,370)
+		elif b == 7:
+			dO(50,370)
+
+		elif b == 8:
+			dO(230,370)
+
+		elif b == 9:
+			dO(400,370)
 
 
 def winner(board,player):
+	score = None
 
 	win_list = [
 			[board[1],board[2],board[3]],
@@ -151,11 +177,15 @@ def winner(board,player):
 			[board[3],board[5],board[7]]]
 
 	if [player, player, player] in win_list:
+		if player == 'X':
+			score = 10
+		elif player == 'O':
+			score = -10
 		msg(player)
 		gameover(board)
 
-	else:
-		pass
+	return score
+
 
 def gameover(board):
 	globals()['gate'] = False
@@ -205,6 +235,9 @@ def but_wh(position):
 		uplay(board,9)
 		dX(400,370)
 
+	player = 'X'
+	winner(board,player)
+
 def msg(player):
 	messagebox.showinfo( "Winner",player + ' has won the game')
 				
@@ -225,21 +258,6 @@ def pyboard():
 	eight = pygame.draw.rect(win , (255,255,255), (200,375,150,150))
 	ninth = pygame.draw.rect(win , (255,255,255), (375,375,150,150))
 
-def minimax(board):
-
-	if len(valid_pos) == 8:
-		b = random.choice(valid_pos)
-		board[b] = 'O'
-		AImove(board,b)
-
-	else:
-		obj = TreeNode(board)
-		oblis.append(obj)
-		for i in range(valid_pos+1):
-			child = TreeNode()
-			obj.add_child()
-
-
 pyboard()
 while gate:
 	pygame.display.update()
@@ -248,6 +266,7 @@ while gate:
 	for event in pygame.event.get():
 		emptypos(board)
 		turn(board)
+
 		if event.type == pygame.QUIT:
 			pygame.quit()
 
@@ -255,7 +274,7 @@ while gate:
 			pos = pygame.mouse.get_pos()
 			but_wh(pos)
 			pygame.display.update()
-			winner(board,player)
+			#winner(board,player)
 
 			if gate == False:
 				pass
@@ -263,40 +282,7 @@ while gate:
 			else:
 				emptypos(board)
 				turn(board)
-				winner(board,player)
+				#winner(board,player)
 
 pygame.time.delay(1000)
 pygame.quit()
-		
-
-"""
-def build_tree():
-
-	root = TreeNode("laptop")
-
-	har = TreeNode("GHOST")
-	har.add_child(TreeNode("ASUS"))
-	har.add_child(TreeNode("i7"))
-	har.add_child(TreeNode("Nvidia"))
-
-	sha = TreeNode("WOWSHAZAM")
-	sha.add_child(TreeNode("DELL"))
-	sha.add_child(TreeNode("i5"))
-	sha.add_child(TreeNode("Nvidia"))
-
-	pa = TreeNode("DARKGRING")
-	pa.add_child(TreeNode("HP"))
-	pa.add_child(TreeNode("i3"))
-	pa.add_child(TreeNode("AMD"))
-
-	root.add_child(har)
-	root.add_child(sha)
-	root.add_child(pa)
-
-	return root
-
-root = build_tree()
-root.print_tree()
-
-"""
-
