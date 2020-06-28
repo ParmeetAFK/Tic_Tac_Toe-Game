@@ -59,7 +59,7 @@ def minimax(board,depth,isMax):
 			board[move] = 'X'
 			score = minimax(board,depth+1,True)
 			board[move] = '_'
-			bestScore = max(score,bestScore)
+			bestScore = min(score,bestScore)
 
 		return bestScore
  
